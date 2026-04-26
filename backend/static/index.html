@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimodal Engagement AI</title>
+    <meta name="description" content="Advanced presentation coaching with context-aware AI and 10 ML pipelines.">
+    <link rel="stylesheet" href="/static/style.css?v=4.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="layout">
+        <header class="header">
+            <div class="header-text">
+                <h1>Multimodal AI Engagement Predictor</h1>
+                <p>AI-powered presentation coaching with context-aware linguistic and acoustic analysis.</p>
+            </div>
+            <div class="header-actions">
+                <button id="download-btn" class="btn-secondary hidden">Download Report</button>
+                <button id="reset-btn" class="btn-primary hidden">+ New Analysis</button>
+            </div>
+        </header>
+
+        <main class="content">
+            <!-- Upload -->
+            <div id="upload-zone" class="card upload-card">
+                <input type="file" id="file-input" accept=".mp4,.mov,.avi,.wav,.mp3" hidden>
+                <div class="upload-content">
+                    <div class="upload-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                    </div>
+                    <h2>Analyze Presentation</h2>
+                    <p>Upload video or audio to get context-aware coaching insights</p>
+                    <span class="file-types">Supports MP4, MOV, WAV, MP3</span>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div id="loading" class="card loading-card hidden">
+                <div class="spinner"></div>
+                <h3 id="loading-text">Processing media...</h3>
+                <p id="loading-sub">Analyzing 3,035 multimodal features across 10 ML models.</p>
+            </div>
+
+            <!-- Error -->
+            <div id="error-box" class="card error-card hidden"></div>
+
+            <!-- Results Section -->
+            <div id="results" class="results-container hidden">
+                
+                <!-- TOP SECTION: ENGAGEMENT & MEDIA -->
+                <div class="top-results-grid">
+                    <section class="card overall-card">
+                        <div class="overall-header">
+                            <div>
+                                <span class="label-chip">Multimodal Consensus</span>
+                                <h2>Overall Engagement</h2>
+                            </div>
+                            <div class="master-badge" id="overall-badge">N/A</div>
+                        </div>
+                        <div class="media-container" id="media-player-box">
+                            <!-- JS will inject <video> or <audio> here -->
+                        </div>
+                        <div class="transcript-section">
+                            <h4>Transcript <small id="word-count"></small></h4>
+                            <div class="transcript-box" id="transcript-box"></div>
+                        </div>
+                    </section>
+
+                    <!-- AI COACH (Moved to Top Right) -->
+                    <section class="card ai-coach-card" id="gemini-section">
+                        <div class="ai-coach-header">
+                            <div>
+                                <span class="pipeline-label" style="color:#8b5cf6;">Contextual Layer</span>
+                                <h3>AI Coaching Report</h3>
+                            </div>
+                            <div class="consensus-badge" id="gemini-rating">N/A</div>
+                        </div>
+                        <div class="ai-summary" id="gemini-summary">Waiting for analysis...</div>
+                        <div class="ai-metrics-row">
+                            <div class="ai-metric-card">
+                                <h5>Authority</h5>
+                                <div class="ai-metric-value" id="gemini-confidence">0%</div>
+                            </div>
+                            <div class="ai-metric-card">
+                                <h5>Fillers</h5>
+                                <div class="ai-metric-detail" id="gemini-fillers">—</div>
+                            </div>
+                        </div>
+                        <div class="ai-list-section">
+                            <h4 class="section-title green">✓ Strengths</h4>
+                            <ul id="gemini-strengths" class="ai-list strengths-list"></ul>
+                        </div>
+                        <div class="ai-list-section">
+                            <h4 class="section-title red">✗ Improvements</h4>
+                            <ul id="gemini-improvements" class="ai-list improvements-list"></ul>
+                        </div>
+                        <div class="ai-list-section">
+                            <h4 class="section-title blue">💡 Action Tips</h4>
+                            <ul id="gemini-tips" class="ai-list tips-list"></ul>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- PIPELINES GRID -->
+                <div class="pipelines-grid">
+                    <!-- Text -->
+                    <section class="card pipeline-card">
+                        <div class="pipeline-header">
+                            <h3>Linguistic Structure</h3>
+                            <div class="consensus-badge" id="text-consensus">N/A</div>
+                        </div>
+                        <div class="feat-grid" id="text-feature-values"></div>
+                        <table class="models-table">
+                            <thead><tr><th>Model</th><th>Prediction</th><th>Confidence</th></tr></thead>
+                            <tbody id="text-models-tbody"></tbody>
+                        </table>
+                    </section>
+                    <!-- Audio -->
+                    <section class="card pipeline-card">
+                        <div class="pipeline-header">
+                            <h3>Speech Prosody</h3>
+                            <div class="consensus-badge" id="audio-consensus">N/A</div>
+                        </div>
+                        <div class="feat-grid" id="audio-feature-values"></div>
+                        <table class="models-table">
+                            <thead><tr><th>Model</th><th>Prediction</th><th>Confidence</th></tr></thead>
+                            <tbody id="audio-models-tbody"></tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <!-- EVALUATION DASHBOARD -->
+                <section class="card evaluation-card">
+                    <header class="eval-header">
+                        <h2>Model Evaluation Dashboard</h2>
+                        <p>Detailed performance metrics and confusion matrices for the trained pipelines.</p>
+                    </header>
+                    
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="arch">Architecture</button>
+                        <button class="tab-btn" data-tab="text-eval">Text Metrics</button>
+                        <button class="tab-btn" data-tab="audio-eval">Audio Metrics</button>
+                    </div>
+
+                    <div class="tab-content" id="tab-arch">
+                        <img src="/charts/architecture_diagram.png" alt="Architecture" class="full-img">
+                    </div>
+
+                    <div class="tab-content hidden" id="tab-text-eval">
+                        <div class="eval-grid">
+                            <div class="eval-img-box">
+                                <h5>Accuracy Comparison</h5>
+                                <img src="/charts/text_pipeline_comparison.png" class="full-img">
+                            </div>
+                            <div class="eval-img-box">
+                                <h5>Confusion Matrix (Top Model)</h5>
+                                <img src="/charts/text_support_vector_machine_cm.png" class="full-img">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content hidden" id="tab-audio-eval">
+                        <div class="eval-grid">
+                            <div class="eval-img-box">
+                                <h5>Accuracy Comparison</h5>
+                                <img src="/charts/audio_pipeline_comparison.png" class="full-img">
+                            </div>
+                            <div class="eval-img-box">
+                                <h5>Confusion Matrix (Top Model)</h5>
+                                <img src="/charts/audio_mlp_classifier_cm.png" class="full-img">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/app.js?v=4.0"></script>
+</body>
+</html>

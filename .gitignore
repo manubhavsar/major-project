@@ -1,0 +1,17 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+.env
+
+# Data & Models
+actual_text_data.csv
+actual_audio_data.csv
+*.joblib
+charts/
+temp_audio.wav
+
+mock_audio/
+ravdess_audio/
+# OS
+.DS_Store
